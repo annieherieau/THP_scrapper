@@ -53,5 +53,6 @@ end
 
 
 #______ PERFORM 
-# url_mairie = "https://www.annuaire-des-mairies.com/95/avernes.html"
-# puts get_townhall_email(url_mairie)
+url_mairie = "https://www.annuaire-des-mairies.com/95/avernes.html"
+url_mairie2 = "https://annuaire-des-mairies.com/35/montauban-de-bretagne.html"
+puts get_townhall_email(url_mairie2)
