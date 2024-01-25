@@ -90,4 +90,4 @@ url_depart1 = "https://annuaire-des-mairies.com/val-d-oise.html"
 # puts get_townhall_urls(url_depart1,url_site )
 
 # email des mairies du département
-# print_results(townhall_scrapper(url_depart1, url_site))
+print_results(townhall_scrapper(url_depart1, url_site))
