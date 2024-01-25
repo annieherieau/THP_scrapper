@@ -2,13 +2,14 @@
 
 require_relative '../lib/01_dark_trader'
 
-url ="https://coinmarketcap.com/all/views/all/"
+url = "https://coinmarketcap.com/all/views/all/"
 page = open_page(url)
 xpath_elements = {
-  name: '//a[@class="cmc-table__column-name--name cmc-link"]/@title', 
-  rate: '//a[contains(@href, "#markets")]//span'}
+  name: '//a[@class="cmc-table__column-name--name cmc-link"]/@title',
+  rate: '//a[contains(@href, "#markets")]//span'
+}
 crypto_data = parse_html_elements(page, xpath_elements)
-#___________
+# ___________
 
 describe "open_page(url) function" do
   it "returns a Nokogiri::HTML4::Document" do
