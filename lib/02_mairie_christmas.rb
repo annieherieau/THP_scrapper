@@ -45,7 +45,7 @@ end
 
 # scrapping des url des mairies
 # rspec Ok
-def get_townhall_urls(departement_url, site_url)
+def get_townhall_urls(departement_url)
   # Ouvrir la page
   page = open_page(departement_url)
 
@@ -56,7 +56,7 @@ def get_townhall_urls(departement_url, site_url)
   depart_data = page.xpath(xpath_element)
   towns_data = []
   (0...depart_data.length).each do |i|
-    towns_data.push({ depart_data[i].children.text => site_url + depart_data[i].attribute_nodes[1].value[1..] })
+    towns_data.push({ depart_data[i].children.text => depart_data[i].attribute_nodes[1].value[1..] })
   end
 
   towns_data
@@ -66,13 +66,13 @@ end
 # rspec Ok
 def townhall_scrapper(departement_url, site_url)
   # collecter les data des villes du département
-  towns_data = get_townhall_urls(departement_url, site_url)
+  towns_data = get_townhall_urls(departement_url)
   # Array des emails des mairies
-  towns_emails = []
+  towns_emails = Array.new
 
   # extraire les urls pour scrapper les emails
   towns_data.each do |hash|
-    url = hash.values.join
+    url = site_url+hash.values.join
     towns_emails.push(get_townhall_email(url))
   end
   towns_emails
