@@ -8,25 +8,15 @@ require 'open-uri'
 #______ keep the code above in each in project files lib/*.rb
 
 # Ouvrir la page >> returns Nokogiri::HTML4::Document
+# rspec ok
 def open_page(url)
   page = Nokogiri::HTML(URI.open(url))
   return page
 end
 
-# Réorganiser ce hash dans un array 
-  # returns Array of Hashes = [{name1 : rate1},{name2 : rate2}]
+# Isoler les éléments HTML 
+  # >> returns Hash of arrays {names: [n1, n2], rates: [r1, r2]}
   # rspec ok
-def build_scrapping_array(hash)
-  array = Array.new
-  i=0
-  hash[:names].each do |name|
-    array.push ({name => hash[:rates][i]})
-    i +=1
-  end
-  puts array[0].values.nil?
-  return array
-end
-
 # imprimer les résultats
 def print_results(array)
   array.each do |hash| 
@@ -35,6 +25,7 @@ def print_results(array)
 end
 
 # Perform pour 1 mairie >> return Hash
+# rspec ok
 def get_townhall_email(url)
   # Ouvrir la page
   page = open_page(url)
@@ -51,8 +42,52 @@ def get_townhall_email(url)
   return {townhall_name => townhall_email}
 end
 
+# scrapping des url des mairies
+#rspec Ok
+def get_townhall_urls(departement_url, site_url)
+  # Ouvrir la page
+  page = open_page(departement_url)
+
+  # xPath des élément à scrapper
+  xpath_element = '//table[@class="Style20"]//a'
+
+  # Isoler les éléments HTML (Hash of arrays)
+  depart_data = page.xpath(xpath_element)
+  towns_data = Array.new
+  (0...depart_data.length).each do |i|
+    towns_data.push({depart_data[i].children.text => site_url+(depart_data[i].attribute_nodes[1].value)[1..]})
+  end
+
+  return towns_data
+end
+
+# spapping de toutes les mairies du département
+#rspec Ok
+def townhall_scrapper(departement_url, site_url)
+  # collecter les data des villes du département
+  towns_data = get_townhall_urls(departement_url, site_url)
+  # Array des emails des mairies
+  towns_emails = Array.new 
+
+  # extraire les urls pour scrapper les emails
+  towns_data.each do |hash|
+    url = hash.values.join
+    towns_emails.push(get_townhall_email(url))
+  end
+  return towns_emails
+end
+
 
 #______ PERFORM 
 url_mairie = "https://www.annuaire-des-mairies.com/95/avernes.html"
-url_mairie2 = "https://annuaire-des-mairies.com/35/montauban-de-bretagne.html"
-puts get_townhall_email(url_mairie2)
+url_site =  "https://annuaire-des-mairies.com"
+url_depart1 = "https://annuaire-des-mairies.com/val-d-oise.html"
+
+# 1 mairie
+# puts get_townhall_email(url_mairie)
+
+# urls des mairies du département
+# puts get_townhall_urls(url_depart1,url_site )
+
+# email des mairies du département
+# print_results(townhall_scrapper(url_depart1, url_site))
