@@ -24,7 +24,7 @@ def parse_html_elements(page, xpath_elements)
                .map(&:text),
     # array cours des crytos
     rates: page.xpath(xpath_elements[:rate])
-                              .map(&:text)
+               .map(&:text)
   }
 end
 

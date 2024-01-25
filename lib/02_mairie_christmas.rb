@@ -68,11 +68,11 @@ def townhall_scrapper(departement_url, site_url)
   # collecter les data des villes du département
   towns_data = get_townhall_urls(departement_url)
   # Array des emails des mairies
-  towns_emails = Array.new
+  towns_emails = []
 
   # extraire les urls pour scrapper les emails
   towns_data.each do |hash|
-    url = site_url+hash.values.join
+    url = site_url + hash.values.join
     towns_emails.push(get_townhall_email(url))
   end
   towns_emails

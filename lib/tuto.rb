@@ -1,14 +1,14 @@
 # frozen_string_literal: true
+
 # Gem PRY : outil de debuggage
 require 'pry' # Appelle la gem Pry : use binding.pry
 # gem Nokogori : scrapping
 require 'nokogiri'
 # gem open-uri : ouvrir une URL
 require 'open-uri'
-#______ keep the code above in each in project files lib/*.rb
+# ______ keep the code above in each in project files lib/*.rb
 
-
-# ouvrir une url 
+# ouvrir une url
 page = Nokogiri::HTML(URI.open("ton_url_a_scrapper.com"))
 
 # Array des éléments HTML à scrapper en utilisant leur XPath
@@ -20,11 +20,11 @@ page.xpath('//a')
 # recuperer les <h1>
 page.xpath('//h1')
 
-# récuperer les liens sous <h1>, même s'ils sont inclus 
+# récuperer les liens sous <h1>, même s'ils sont inclus
 # dans un paragraphe, lui-même imbriqué dans une div
 page.xpath('//h1//a')
 
-#récupérer les liens situés DIRECTEMENT sous un titre h1 (sans élément intermédiaire)
+# récupérer les liens situés DIRECTEMENT sous un titre h1 (sans élément intermédiaire)
 page.xpath('//h1/a')
 
 # récupérer TOUS les éléments HTML situés DIRECTEMENT sous un titre h1
@@ -38,7 +38,7 @@ page.xpath('//a[contains(@href, "mailto")]')
 
 # récupérer le texte de chaque lien ? Il faut parcourir l'array et extraire le .text de chaque élément HTML
 all_emails_links.each do |email_link|
-  puts email_link.text #ou n'importe quelle autre opération de ton choix ;)
+  puts email_link.text # ou n'importe quelle autre opération de ton choix ;)
 end
 
 # récupérer le texte du href d'un élément HTML
